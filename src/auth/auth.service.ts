@@ -20,9 +20,11 @@ export class AuthService {
             ...user,
         };
     }
+
     private async checkEmailExists(email: string) {
         return await this.userSvc.findUserByEmail(email);
     };
+
     async signinUser(email: string, password: string) {
         const user = await this.checkEmailExists(email);
         if (!user || user.password !== password) {
@@ -35,7 +37,9 @@ export class AuthService {
 
     async verifyToken(incomingToken: string, allowedRoles: string[]) {
         try {
-            const data = await this.jwtSvc.verifyAsync(incomingToken);
+            const data = await this.jwtSvc.verifyAsync(incomingToken, {
+                secret: 'defaultSecretKey657876vt', // Ensure you pass the secret here
+            });
             if (!data) {
                 return {
                     error: 'invalid_token'

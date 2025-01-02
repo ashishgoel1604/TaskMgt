@@ -28,8 +28,8 @@ export class UserService {
     });
   }
 
-  createUser(email: string, password: string): Promise<User> {
-    const user = this.userRepository.create({ email, password });
+  createUser(email: string, password: string, is_admin: boolean): Promise<User> {
+    const user = this.userRepository.create({ email, password, role: !!is_admin ? Role.ADMIN : Role.USER });
     return this.userRepository.save(user);
   }
 

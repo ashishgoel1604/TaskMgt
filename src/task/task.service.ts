@@ -13,8 +13,8 @@ export class TaskService {
     private userSvc: UserService,
   ) { }
 
-  createTask(title: string, description: string, userId: number): Promise<Task> {
-    const task = this.taskRepository.create({ title, description, user: { id: userId } });
+  createTask(title: string, description: string): Promise<Task> {
+    const task = this.taskRepository.create({ title, description });
     return this.taskRepository.save(task);
   }
 
