@@ -5,6 +5,14 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // Enable CORS
+  app.enableCors({
+    origin: 'http://localhost:3000',  // URL of the React app
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true
+  });
+
+
   const options = new DocumentBuilder()
     .setTitle('Task Management API')
     .setDescription('API documentation for task management system')
@@ -13,6 +21,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(3000);
+  await app.listen(4000);
 }
 bootstrap();

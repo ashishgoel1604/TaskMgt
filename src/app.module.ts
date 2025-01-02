@@ -5,9 +5,16 @@ import { TaskModule } from './task/task.module';
 import { UserModule } from './user/user.module';
 import { Task } from './entities/task.entity';
 import { User } from './entities/user.entity';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
+    // // Serve static files from the 'public' directory
+    // ServeStaticModule.forRoot({
+    //   rootPath: join(__dirname, '..', 'public/build'),
+    // }),
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -24,6 +31,7 @@ import { User } from './entities/user.entity';
     TypeOrmModule.forFeature([Task, User]),
     TaskModule,
     UserModule,
+    AuthModule,
   ],
 })
 export class AppModule { }

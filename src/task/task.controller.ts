@@ -11,7 +11,7 @@ export class TaskController {
   @Post()
   @ApiOperation({ summary: 'Create a new task' })
   @ApiResponse({ status: 201, description: 'Task created successfully' })
-  create(@Body() body: { title: string; description: string; deadline: string; userId: number }): Promise<Task> {
+  create(@Body() body: { title: string; description: string; deadline: string; userId: number }) {
     return this.taskService.createTask(body.title, body.description, body.deadline, body.userId);
   }
 
