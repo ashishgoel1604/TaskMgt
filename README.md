@@ -34,7 +34,6 @@ Before running this application, make sure you have the following installed:
 
 Clone the repository to your local machine:
 
-```bash
 git clone https://gitlab.com/your-username/task-management.git
 cd task-management
 
