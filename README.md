@@ -34,21 +34,20 @@ Before running this application, make sure you have the following installed:
 
 Clone the repository to your local machine:
 
-```bash
 git clone https://gitlab.com/your-username/task-management.git
 cd task-management
-Step 2: Install Dependencies for Both Backend and Frontend
+
+### Step 2: Install Dependencies for Both Backend and Frontend
 You need to install the dependencies for both the backend and frontend projects. You can do this by running the following command from the root directory of the project:
 
-```bash
+
 npm run install:all
 This will install all the necessary dependencies for both the backend (NestJS) and frontend (React) applications.
 
 ## Environment Configuration
-Step 3: Configure Environment Variables for the Backend
+### Step 3: Configure Environment Variables for the Backend
 You need to create an .env file in the root directory of the backend project and set the following environment variables for your database connection and JWT secret:
 
-```bash
 DB_HOST=localhost
 DB_PORT=5432
 DB_USER=postgres
@@ -57,11 +56,11 @@ DB_NAME=task_management
 JWT_SECRET=uytr#$%^78765434567
 Make sure your PostgreSQL database is running and the task_management database exists.
 
-Running the Application
-Step 4: Start Both Backend and Frontend
+## Running the Application
+###  Step 4: Start Both Backend and Frontend
 Once the dependencies are installed, you can run both the backend (NestJS) and frontend (React) concurrently in development mode with the following command:
 
-```bash
+
 npm run dev
 This will execute the following:
 
@@ -70,15 +69,15 @@ Frontend: The React frontend will start on http://localhost:3000.
 The React app will be available in the backend at /frontend route.
 
 ## Swagger API Documentation
-Step 5: Access the API Documentation
+### Step 5: Access the API Documentation
 The API documentation for the backend is available via Swagger. To view it, open your browser and go to the following URL:
 
-```bash
+
 http://localhost:4000/api
 This will load the Swagger UI, where you can explore all the available API endpoints.
 
 ## Initializing Admin User
-Step 6: Create an Admin User
+### Step 6: Create an Admin User
 Before you can start using the API, you need to initialize an Admin user. You can do this by calling the users/init API endpoint in Swagger.
 
 Endpoint: POST /users/init
@@ -92,7 +91,7 @@ After initializing the admin user, you can log in and start using other API endp
 
 Email: admin@gmail.com
 Password: 1234
-Step 7: Log in
+### Step 7: Log in
 To log in as an admin and get a JWT token, use the login API:
 
 Endpoint: POST /auth/login
@@ -105,7 +104,7 @@ Copy code
 }
 This will return a JWT token. Use this token for authentication in subsequent API calls.
 
-Step 8: Explore Other APIs
+### Step 8: Explore Other APIs
 Once logged in, you can explore other APIs available in Swagger, including:
 
 ## CRUD Operations for Tasks
@@ -119,9 +118,9 @@ Create, Update, Retrieve, and Delete users.
 Frontend
 The frontend React app is served at the /frontend route in the backend API.
 
-Step 9: Access the Frontend
+### Step 9: Access the Frontend
 Once both the backend and frontend are running, you can access the frontend UI by navigating to:
 
-``` bash
+
 http://localhost:4000/frontend
 This will serve the React application, where you can manage tasks, users, and interact with the API via a user-friendly interface.
