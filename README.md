@@ -34,8 +34,8 @@ Before running this application, make sure you have the following installed:
 
 Clone the repository to your local machine:
 
-git clone https://gitlab.com/your-username/task-management.git
-cd task-management
+#### git clone https://gitlab.com/your-username/task-management.git
+#### cd task-management
 
 ### Step 2: Install Dependencies for Both Backend and Frontend
 You need to install the dependencies for both the backend and frontend projects. You can do this by running the following command from the root directory of the project:
