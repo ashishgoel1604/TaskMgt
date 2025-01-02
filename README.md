@@ -1,4 +1,3 @@
-You can **copy and paste** the following content directly into your `README.md` file:
 
 ```
 # Task Management API
