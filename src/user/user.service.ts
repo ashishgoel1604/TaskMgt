@@ -38,15 +38,20 @@ export class UserService {
   }
 
   async checkIfUserAccessAllowed(id: number, loggedinUser: any) {
-    if (loggedinUser?.id !== id) {
+
+    if (loggedinUser.role !== Role.ADMIN && loggedinUser?.id !== id) {
       throw new UnauthorizedException({ message: 'You are not allowed to perform this operation!' });
     }
     return true;
   }
 
+  async getUserDetails(id: number) {
+    return this.userRepository.findOne({ where: { id } });
+  }
+
   async findUserById(id: number, loggedinUser: any): Promise<User> {
     await this.checkIfUserAccessAllowed(id, loggedinUser);
-    return this.userRepository.findOne({ where: { id } });
+    return this.getUserDetails(id);
   }
 
   async deleteUser(id: number): Promise<void> {

@@ -32,6 +32,7 @@ export class AuthService {
         const data = await this.issueJwtToken(user);
         return data;
     }
+
     async verifyToken(incomingToken: string, allowedRoles: string[]) {
         try {
             const data = await this.jwtSvc.verifyAsync(incomingToken);
@@ -41,7 +42,7 @@ export class AuthService {
                 }
             }
             const userId = data.sub;
-            const user = await this.userSvc.findUserById(userId);
+            const user = await this.userSvc.getUserDetails(userId);
             if (!user) {
                 return {
                     error: 'invalid_user'
