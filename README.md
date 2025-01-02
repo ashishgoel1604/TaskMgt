@@ -1,4 +1,3 @@
-
 ```
 # Task Management API
 
@@ -15,7 +14,6 @@ This is a **Task Management** API built with **NestJS** that allows you to creat
 - [Swagger API Documentation](#swagger-api-documentation)
 - [Initializing Admin User](#initializing-admin-user)
 - [API Endpoints](#api-endpoints)
-- [License](#license)
 
 ---
 
@@ -155,15 +153,4 @@ Once logged in, you can explore other APIs available in Swagger, including:
 - **CRUD Operations for Users** (As an Admin):
   - Create, Update, Retrieve, and Delete users.
 
----
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-```
-
----
-
-Now you can copy everything in this block and paste it into your `README.md` file. This version maintains a consistent format, from Step 1 through to the end.
-
-Let me know if you need any further adjustments!
