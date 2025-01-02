@@ -41,19 +41,19 @@ Clone the repository to your local machine:
 You need to install the dependencies for both the backend and frontend projects. You can do this by running the following command from the root directory of the project:
 
 
-npm run install:all
+#### npm run install:all
 This will install all the necessary dependencies for both the backend (NestJS) and frontend (React) applications.
 
 ## Environment Configuration
 ### Step 3: Configure Environment Variables for the Backend
 You need to create an .env file in the root directory of the backend project and set the following environment variables for your database connection and JWT secret:
 
-DB_HOST=localhost
-DB_PORT=5432
-DB_USER=postgres
-DB_PASSWORD=1234
-DB_NAME=task_management
-JWT_SECRET=uytr#$%^78765434567
+##### **DB_HOST=localhost**
+##### **DB_PORT=5432**
+##### **DB_USER=postgres**
+##### **DB_PASSWORD=1234**
+##### **DB_NAME=task_management**
+##### **JWT_SECRET=uytr#$%^78765434567**
 Make sure your PostgreSQL database is running and the task_management database exists.
 
 ## Running the Application
