@@ -63,9 +63,24 @@ export class UserController {
     return this.userService.findAllUsers();
   }
 
-  @Get(':id')
+  @Get('/me')
   @UseGuards(UserAuthGuard)
   @Roles(Role.ADMIN, Role.USER)
+  @ApiHeader({
+    name: 'token',
+    description: 'Token to be passed in the headers',
+    required: true,
+    example: '<<token str>>',
+  })
+  @ApiOperation({ summary: 'Get user by token' })
+  @ApiResponse({ status: 200, description: 'User found' })
+  findUserInfo(@Request() req: any): Promise<User> {
+    return this.userService.findUserById(null, req.user);
+  }
+
+  @Get(':id')
+  @UseGuards(UserAuthGuard)
+  @Roles(Role.ADMIN)
   @ApiHeader({
     name: 'token',
     description: 'Token to be passed in the headers',
@@ -78,6 +93,8 @@ export class UserController {
   findOne(@Request() req: any, @Param('id') id: number): Promise<User> {
     return this.userService.findUserById(id, req.user);
   }
+
+  
 
   @Delete(':id')
   @UseGuards(UserAuthGuard)

@@ -50,7 +50,12 @@ export class UserService {
   }
 
   async findUserById(id: number, loggedinUser: any): Promise<User> {
-    await this.checkIfUserAccessAllowed(id, loggedinUser);
+    //this is for now quick implementaion only
+    if (!id) {//this is a case, when a logged in user fetches his info
+      id = loggedinUser.id;
+    } else {
+      await this.checkIfUserAccessAllowed(id, loggedinUser);
+    }
     return this.getUserDetails(id);
   }
 
