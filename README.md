@@ -1,5 +1,3 @@
-Apologies for the confusion earlier! Here's the **correct and fully formatted README** in **raw text** format for your project. This version maintains consistency in formatting, starting from **Step 1** onward.
-
 You can **copy and paste** the following content directly into your `README.md` file:
 
 ```
