@@ -6,6 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "install:all": "npm install && npm install --prefix task-management-client",
     "start:react": "cd ./task-management-client && npm start",
     "start:dev": "nest start --watch",
     "dev": "concurrently \"npm run start:dev\" \"npm run start:react\"",
