@@ -61,46 +61,44 @@ Make sure your PostgreSQL database is running and the task_management database e
 Once the dependencies are installed, you can run both the backend (NestJS) and frontend (React) concurrently in development mode with the following command:
 
 
-npm run dev
+#### npm run dev
 This will execute the following:
 
-Backend: The NestJS backend will start on http://localhost:4000.
-Frontend: The React frontend will start on http://localhost:3000.
-The React app will be available in the backend at /frontend route.
+###### Backend: The NestJS backend will start on http://localhost:4000.
+###### Frontend: The React frontend will start on http://localhost:3000.
 
 ## Swagger API Documentation
 ### Step 5: Access the API Documentation
 The API documentation for the backend is available via Swagger. To view it, open your browser and go to the following URL:
 
 
-http://localhost:4000/api
+##### http://localhost:4000/api
 This will load the Swagger UI, where you can explore all the available API endpoints.
 
 ## Initializing Admin User
 ### Step 6: Create an Admin User
 Before you can start using the API, you need to initialize an Admin user. You can do this by calling the users/init API endpoint in Swagger.
 
-Endpoint: POST /users/init
+##### Endpoint: POST /users/init
 Body: This will create a default admin user with the following credentials:
-Email: admin@gmail.com
-Password: 1234
+##### Email: admin@gmail.com
+##### Password: 1234
 Once you call this endpoint, the admin user will be created in the database.
 
 ## API Endpoints
 After initializing the admin user, you can log in and start using other API endpoints. The login credentials for the admin user are:
 
-Email: admin@gmail.com
-Password: 1234
+##### Email: admin@gmail.com
+##### Password: 1234
 ### Step 7: Log in
 To log in as an admin and get a JWT token, use the login API:
 
-Endpoint: POST /auth/login
+##### Endpoint: POST /auth/login
 Body:
-json
-Copy code
+
 {
-  "email": "admin@gmail.com",
-  "password": "1234"
+  ###### "email": "admin@gmail.com",
+  ###### "password": "1234"
 }
 This will return a JWT token. Use this token for authentication in subsequent API calls.
 
@@ -109,18 +107,12 @@ Once logged in, you can explore other APIs available in Swagger, including:
 
 ## CRUD Operations for Tasks
 
-Create, Update, Retrieve, and Delete tasks.
-Assign tasks to users.
-Update task status (Pending, In Progress, Completed).
-CRUD Operations for Users (As an Admin):
+###### Create, Update, Retrieve, and Delete tasks.
+###### Assign tasks to users.
+###### Update task status (Pending, In Progress, Completed).
+###### CRUD Operations for Users (As an Admin):
 
 Create, Update, Retrieve, and Delete users.
-Frontend
-The frontend React app is served at the /frontend route in the backend API.
 
 ### Step 9: Access the Frontend
 Once both the backend and frontend are running, you can access the frontend UI by navigating to:
-
-
-http://localhost:4000/frontend
-This will serve the React application, where you can manage tasks, users, and interact with the API via a user-friendly interface.
