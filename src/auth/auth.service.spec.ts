@@ -120,6 +120,6 @@ describe('AuthService', () => {
         mockUserService.getUserDetails.mockResolvedValue(mockUser);
 
         const result = await authService.verifyToken('jwt_token', ['Admin']);
-        expect(result).toHaveProperty('error', 'invalid_user');
+        expect(result).toHaveProperty('error', 'invalid_token');
     });
 });

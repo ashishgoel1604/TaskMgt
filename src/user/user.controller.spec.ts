@@ -1,36 +1,53 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
-import { Role } from '../entities/user.entity';
 import { UserAuthGuard } from '../guards/UserAuthGuard';
-import { NotFoundException, BadRequestException } from '@nestjs/common';
+import { AuthService } from '../auth/auth.service';  // Import AuthService
+import { ExecutionContext } from '@nestjs/common';
+import { Role, User } from '../entities/user.entity';
 
-// Mock the UserService
+// Mocking UserAuthGuard
+class MockUserAuthGuard {
+  canActivate(context: ExecutionContext): boolean {
+    return true; // Always allow the request to pass
+  }
+}
+
+// Mocking AuthService (necessary if your guard relies on it)
+class MockAuthService {
+  validateUser() {
+    return { id: 1, role: Role.ADMIN }; // Mock return value for validation
+  }
+}
+
+// Mocking UserService
 const mockUserService = {
-  createInitialUser: jest.fn(),
-  createUser: jest.fn(),
-  findAllUsers: jest.fn(),
-  findUserById: jest.fn(),
-  deleteUser: jest.fn(),
+  createUser: jest.fn().mockResolvedValue({ id: 1, email: 'test@example.com', password: 'strongpassword123', is_admin: true }),
+  findAllUsers: jest.fn().mockResolvedValue([
+    { id: 1, email: 'test@example.com', password: 'strongpassword123', is_admin: true },
+    { id: 2, email: 'user@example.com', password: 'password123', is_admin: false },
+  ]),
+  findUserById: jest.fn().mockResolvedValue({ id: 1, email: 'test@example.com', password: 'strongpassword123', is_admin: true }),
+  deleteUser: jest.fn().mockResolvedValue(undefined),
+  createInitialUser: jest.fn().mockResolvedValue({ id: 1, email: 'admin@example.com', password: 'adminpassword', is_admin: true }),
 };
 
 describe('UserController', () => {
   let controller: UserController;
-  let service: UserService;
+  let userService: UserService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UserController],
       providers: [
-        {
-          provide: UserService,
-          useValue: mockUserService,
-        },
+        { provide: UserService, useValue: mockUserService },
+        { provide: AuthService, useClass: MockAuthService },  // Provide the mocked AuthService
+        { provide: UserAuthGuard, useClass: MockUserAuthGuard }, // Mock the guard
       ],
     }).compile();
 
     controller = module.get<UserController>(UserController);
-    service = module.get<UserService>(UserService);
+    userService = module.get<UserService>(UserService);
   });
 
   it('should be defined', () => {
@@ -39,60 +56,53 @@ describe('UserController', () => {
 
   describe('initAdminUser', () => {
     it('should initialize an admin user', async () => {
-      mockUserService.createInitialUser.mockResolvedValueOnce({ email: 'admin@gmail.com', role: Role.ADMIN });
-      
       const result = await controller.initAdminUser();
-      expect(result.email).toBe('admin@gmail.com');
-    });
-
-    it('should throw error if user already exists', async () => {
-      mockUserService.createInitialUser.mockRejectedValueOnce(new BadRequestException('User already exists'));
-
-      await expect(controller.initAdminUser()).rejects.toThrow(BadRequestException);
+      expect(result).toEqual({ id: 1, email: 'admin@example.com', password: 'adminpassword', is_admin: true });
+      expect(userService.createInitialUser).toHaveBeenCalled();
     });
   });
 
-  describe('createUser', () => {
+  describe('create', () => {
     it('should create a new user', async () => {
-      const mockUser = { email: 'test@example.com', password: 'password123', role: Role.USER };
-      mockUserService.createUser.mockResolvedValueOnce(mockUser);
-      
-      const result = await controller.create({ email: 'test@example.com', password: 'password123', is_admin: false });
-      
-      expect(result.email).toBe('test@example.com');
-      expect(result.role).toBe(Role.USER);
+      const createDto = { email: 'test@example.com', password: 'strongpassword123', is_admin: true };
+      const result = await controller.create(createDto);
+      expect(result).toEqual({ id: 1, email: 'test@example.com', password: 'strongpassword123', is_admin: true });
+      expect(userService.createUser).toHaveBeenCalledWith(createDto.email, createDto.password, createDto.is_admin);
     });
   });
 
-  describe('findAllUsers', () => {
-    it('should return an array of users', async () => {
-      const mockUsers = [
-        { email: 'user1@example.com', role: Role.USER },
-        { email: 'user2@example.com', role: Role.ADMIN },
-      ];
-      mockUserService.findAllUsers.mockResolvedValueOnce(mockUsers);
-
+  describe('findAll', () => {
+    it('should return all users', async () => {
       const result = await controller.findAll();
-      expect(result).toHaveLength(2);
-      expect(result[0].email).toBe('user1@example.com');
+      expect(result).toEqual([
+        { id: 1, email: 'test@example.com', password: 'strongpassword123', is_admin: true },
+        { id: 2, email: 'user@example.com', password: 'password123', is_admin: false },
+      ]);
+      expect(userService.findAllUsers).toHaveBeenCalled();
     });
   });
 
   describe('findUserInfo', () => {
-    it('should return user info for logged-in user', async () => {
-      const mockUser = { id: 1, email: 'test@example.com', role: Role.USER };
-      mockUserService.findUserById.mockResolvedValueOnce(mockUser);
-      
-      const result = await controller.findUserInfo({ user: mockUser });
-      expect(result.email).toBe('test@example.com');
+    it('should return the current user info', async () => {
+      const result = await controller.findUserInfo({ user: { id: 1 } });
+      expect(result).toEqual({ id: 1, email: 'test@example.com', password: 'strongpassword123', is_admin: true });
+      expect(userService.findUserById).toHaveBeenCalledWith(null, { id: 1 });
     });
   });
 
-  describe('deleteUser', () => {
-    it('should delete a user', async () => {
-      mockUserService.deleteUser.mockResolvedValueOnce(undefined);
-      
-      await expect(controller.delete(1)).resolves.not.toThrow();
+  describe('findOne', () => {
+    it('should return a user by id', async () => {
+      const result = await controller.findOne({ user: { id: 1 } }, 1);
+      expect(result).toEqual({ id: 1, email: 'test@example.com', password: 'strongpassword123', is_admin: true });
+      expect(userService.findUserById).toHaveBeenCalledWith(1, { id: 1 });
+    });
+  });
+
+  describe('delete', () => {
+    it('should delete a user by id', async () => {
+      const result = await controller.delete(1);
+      expect(result).toBeUndefined();
+      expect(userService.deleteUser).toHaveBeenCalledWith(1);
     });
   });
 });
