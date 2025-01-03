@@ -114,5 +114,10 @@ Once logged in, you can explore other APIs available in Swagger, including:
 
 Create, Update, Retrieve, and Delete users.
 
-### Step 9: Access the Frontend
-Once both the backend and frontend are running, you can access the frontend UI by navigating to:
+
+
+## Running the Tests
+#### npm run test
+This will execute the unit test cases:
+
+
